@@ -11,21 +11,49 @@ public class Controller {
     private static final String KANYE_KEY = "quote";
     private static final String SENTIM_KEY = "text";
 
-    private final Scanner get = new Scanner(System.in);
-
     public void run(){
-        /*System.out.println("> Input number of quotes to get [5 - 20]");
+        final Scanner get = new Scanner(System.in);
+
+        System.out.println("> Input number of quotes to get [5 - 20]");
         int input = 0;
         while(input < 5 || input > 20){
             input = get.nextInt();
-        }*/
+        }
 
-        JSONObject kanyeQuote = RequestHandler.fetch(KANYE_URL);
-        JSONObject postJSON = Parser.swapKeys(kanyeQuote, KANYE_KEY, SENTIM_KEY);
-        JSONObject response = RequestHandler.post(SENTIM_URL, postJSON.toString());
-        System.out.println(Parser.makeQuote(response).toString());
+        java.util.List<Quote> quotes = new java.util.ArrayList<>();
+
+        for(int i = 0; i < input; i++){
+            quotes.add(
+                    Parser.makeQuote(
+                            RequestHandler.post(SENTIM_URL, Parser.swapKeys(
+                                    RequestHandler.fetch(KANYE_URL), KANYE_KEY, SENTIM_KEY).toString())));
+        }
 
 
+        System.out.println(getMostPolar(quotes).toString());
+        System.out.println(getLeastPolar(quotes).toString());
+    }
+
+    private Quote getMostPolar(java.util.List<Quote> quotes){
+        Quote highest = quotes.get(0);
+        double polarity = -2;
+        for(Quote q: quotes){
+            if(q.getPolarity() > polarity){
+                highest = q;
+            }
+        }
+        return highest;
+    }
+
+    private Quote getLeastPolar(java.util.List<Quote> quotes){
+        Quote lowest = quotes.get(0);
+        double polarity = 2;
+        for(Quote q: quotes){
+            if(q.getPolarity() < polarity){
+                lowest = q;
+            }
+        }
+        return lowest;
     }
 
 

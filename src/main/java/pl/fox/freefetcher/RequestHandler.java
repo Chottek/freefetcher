@@ -14,7 +14,7 @@ import org.json.JSONObject;
 public class RequestHandler {
 
     public static JSONObject fetch(String URL){
-        String content = "{}";
+        String content = "";
         try {
             URLConnection connection = new URL(URL).openConnection();
             Scanner scanner = new Scanner(connection.getInputStream());
