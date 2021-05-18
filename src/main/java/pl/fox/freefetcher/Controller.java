@@ -2,6 +2,7 @@ package pl.fox.freefetcher;
 
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class Controller {
@@ -15,14 +16,25 @@ public class Controller {
         final Scanner get = new Scanner(System.in);
 
         System.out.println("> Input number of quotes to get [5 - 20]");
-        int input = 0;
-        while(input < 5 || input > 20){
-            input = get.nextInt();
+        int number = 0;
+        String input = "";
+        while(number < 5 || number > 20){
+            input = get.nextLine();
+
+            if(isParseAble(input)){
+                number = Integer.parseInt(input);
+                if(number < 5 || number > 20){
+                    System.out.println("Input a number between 5 and 20");
+                }
+            } else{
+                System.out.println("Wrong input! Try again");
+            }
+
         }
 
         java.util.List<Quote> quotes = new java.util.ArrayList<>();
 
-        for(int i = 0; i < input; i++){
+        for(int i = 0; i < number; i++){
             Quote q = Parser.makeQuote(
                     RequestHandler.post(SENTIM_URL, Parser.swapKeys(
                             RequestHandler.fetch(KANYE_URL), KANYE_KEY, SENTIM_KEY).toString()));
@@ -77,6 +89,15 @@ public class Controller {
         }
 
         return new int[]{positive, neutral, negative};
+    }
+
+    private boolean isParseAble(String s){
+        try{
+            Integer.parseInt(s);
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
 
