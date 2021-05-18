@@ -1,8 +1,5 @@
 package pl.fox.freefetcher;
 
-import org.json.JSONObject;
-
-import java.text.ParseException;
 import java.util.Scanner;
 
 public class Controller {
@@ -51,7 +48,7 @@ public class Controller {
         System.out.println("\nPolarity types count: \n" + "positive: " + polarityTypes[0] + "\nneutral: " + polarityTypes[1] + "\nnegative: " + polarityTypes[2]);
     }
 
-    private Quote getMostPolar(java.util.List<Quote> quotes){
+    public static Quote getMostPolar(java.util.List<Quote> quotes){
         Quote highest = quotes.get(0);
         double polarity = -2;
         for(Quote q: quotes){
@@ -63,7 +60,7 @@ public class Controller {
         return highest;
     }
 
-    private Quote getLeastPolar(java.util.List<Quote> quotes){
+    public static Quote getLeastPolar(java.util.List<Quote> quotes){
         Quote lowest = quotes.get(0);
         double polarity = 2;
         for(Quote q: quotes){
@@ -75,7 +72,7 @@ public class Controller {
         return lowest;
     }
 
-    private int[] countPolarityTypes(java.util.List<Quote> quotes){
+    public static int[] countPolarityTypes(java.util.List<Quote> quotes){
         int positive = 0;
         int neutral = 0;
         int negative = 0;
@@ -91,7 +88,7 @@ public class Controller {
         return new int[]{positive, neutral, negative};
     }
 
-    private boolean isParseAble(String s){
+    public static boolean isParseAble(String s){
         try{
             Integer.parseInt(s);
         }catch (Exception e){
