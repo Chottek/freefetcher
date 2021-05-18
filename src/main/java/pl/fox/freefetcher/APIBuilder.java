@@ -5,6 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Bartosz Chotkowski
+ * Class implemented to make api addresses making simpler
+ */
 public class APIBuilder {
 
     private String site;

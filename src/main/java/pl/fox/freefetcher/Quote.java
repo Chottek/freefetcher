@@ -1,5 +1,9 @@
 package pl.fox.freefetcher;
 
+/**
+ * @author Bartosz Chotkowski
+ * Class to store data from fetched JSON
+ */
 public class Quote {
 
     private double polarity;
