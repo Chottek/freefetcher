@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Controller {
 
-    private static final String KANYE_URL = "https://api.kanye.rest/";
-    private static final String SENTIM_URL = "https://sentim-api.herokuapp.com/";
+    private static final String KANYE_URL = new APIBuilder().withHTTPS().withSite("api.kanye.rest").getFinalURL();
+    private static final String SENTIM_URL = new APIBuilder().withHTTPS().withSite("sentim-api.herokuapp.com").withSubsite("api/").withSubsite("v1/").getFinalURL();
 
     private final Scanner get = new Scanner(System.in);
 
@@ -15,11 +15,13 @@ public class Controller {
         while(input < 5 || input > 20){
             input = get.nextInt();
         }*/
-
         try{
-            System.out.println(Parser.parseJSON(Fetcher.fetch(KANYE_URL)));
-        }catch (Parser.JSONParseException jpe){
-            jpe.printStackTrace();
+            String requestJSON = Parser.makeJSON(Parser.parseJSON(RequestHandler.fetch(KANYE_URL)));
+            System.out.println(RequestHandler.post(SENTIM_URL, requestJSON));
+
+
+        }catch (Parser.JSONParseException | Parser.MapParseException pe){
+            pe.printStackTrace();
         }
     }
 

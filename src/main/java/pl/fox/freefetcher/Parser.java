@@ -25,12 +25,22 @@ public class Parser {
         return jsons;
     }
 
+    public static String makeJSON(Map<String,String> map) throws MapParseException {
+        if(map.keySet().size() == 0){
+            throw new MapParseException("Too few keys in map to proceed");
+        }
 
+        return "{\"text\": \"" + map.get(map.keySet().iterator().next()) + "\"}";
+    }
 
 
     static class JSONParseException extends Exception {
         public JSONParseException(String msg) {
             super(msg);
         }
+    }
+
+    static class MapParseException extends Exception {
+        public MapParseException(String msg) { super(msg); }
     }
 }
