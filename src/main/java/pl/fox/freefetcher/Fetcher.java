@@ -9,7 +9,7 @@ public class Fetcher {
     public static String fetch(String URL){
         String content = null;
         try {
-            URLConnection connection =  new URL(URL).openConnection();
+            URLConnection connection = new URL(URL).openConnection();
             Scanner scanner = new Scanner(connection.getInputStream());
             scanner.useDelimiter("\\Z");
             content = scanner.next();
