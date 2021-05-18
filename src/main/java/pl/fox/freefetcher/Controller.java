@@ -23,15 +23,20 @@ public class Controller {
         java.util.List<Quote> quotes = new java.util.ArrayList<>();
 
         for(int i = 0; i < input; i++){
-            quotes.add(
-                    Parser.makeQuote(
-                            RequestHandler.post(SENTIM_URL, Parser.swapKeys(
-                                    RequestHandler.fetch(KANYE_URL), KANYE_KEY, SENTIM_KEY).toString())));
+            Quote q = Parser.makeQuote(
+                    RequestHandler.post(SENTIM_URL, Parser.swapKeys(
+                            RequestHandler.fetch(KANYE_URL), KANYE_KEY, SENTIM_KEY).toString()));
+            System.out.println(q.toString());
+            quotes.add(q);
         }
 
 
-        System.out.println(getMostPolar(quotes).toString());
-        System.out.println(getLeastPolar(quotes).toString());
+        System.out.println("\nMost Polar: \n" + getMostPolar(quotes).toString());
+        System.out.println("\nLeast Polar: \n" + getLeastPolar(quotes).toString());
+
+        int[] polarityTypes = countPolarityTypes(quotes);
+
+        System.out.println("\nPolarity types count: \n" + "positive: " + polarityTypes[0] + "\nneutral: " + polarityTypes[1] + "\nnegative: " + polarityTypes[2]);
     }
 
     private Quote getMostPolar(java.util.List<Quote> quotes){
@@ -40,6 +45,7 @@ public class Controller {
         for(Quote q: quotes){
             if(q.getPolarity() > polarity){
                 highest = q;
+                polarity = q.getPolarity();
             }
         }
         return highest;
@@ -51,9 +57,26 @@ public class Controller {
         for(Quote q: quotes){
             if(q.getPolarity() < polarity){
                 lowest = q;
+                polarity = q.getPolarity();
             }
         }
         return lowest;
+    }
+
+    private int[] countPolarityTypes(java.util.List<Quote> quotes){
+        int positive = 0;
+        int neutral = 0;
+        int negative = 0;
+
+        for(Quote q : quotes){
+            switch(q.getType()){
+                case "positive": positive++; break;
+                case "neutral": neutral++; break;
+                case "negative": negative++; break;
+            }
+        }
+
+        return new int[]{positive, neutral, negative};
     }
 
 
