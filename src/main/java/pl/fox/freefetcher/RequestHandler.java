@@ -5,16 +5,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+import org.json.JSONObject;
 
 public class RequestHandler {
 
-    public static String fetch(String URL){
-        String content = null;
+    public static JSONObject fetch(String URL){
+        String content = "{}";
         try {
             URLConnection connection = new URL(URL).openConnection();
             Scanner scanner = new Scanner(connection.getInputStream());
@@ -24,10 +24,10 @@ public class RequestHandler {
         }catch (Exception ex ) {
             ex.printStackTrace();
         }
-        return content;
+        return new JSONObject(content);
     }
 
-    public static String post(String URL, String JSONInput){
+    public static JSONObject post(String URL, String JSONInput){
         StringBuilder response = new StringBuilder();
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(URL).openConnection();
@@ -56,7 +56,7 @@ public class RequestHandler {
             ie.printStackTrace();
         }
 
-        return response.toString();
+        return new JSONObject(response.toString());
     }
 
 }

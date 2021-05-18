@@ -35,4 +35,13 @@ public class Quote {
     public void setSentence(String sentence) {
         this.sentence = sentence;
     }
+
+    @Override
+    public String toString() {
+        return "Quote{" +
+                "polarity=" + polarity +
+                ", type='" + type + '\'' +
+                ", sentence='" + sentence + '\'' +
+                '}';
+    }
 }
